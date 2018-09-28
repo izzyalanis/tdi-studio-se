@@ -29,6 +29,7 @@
 	boolean dieOnError = "true".equals(ElementParameterParser.getValue(node, "__DIE_ON_ERROR__"));
 
     String tokenFile = ElementParameterParser.getValue(node,"__TOKEN_NAME__");
+	boolean useLegacySql = ElementParameterParser.getBooleanValue(node,"__USE_LEGACY_SQL__");
 	
 	boolean isLog4jEnabled = ("true").equals(ElementParameterParser.getValue(node.getProcess(), "__LOG4J_ACTIVATE__"));
 	
@@ -470,15 +471,15 @@
 						String columnName = column.getLabel();
 						String typeToGenerate = null;
 						if("id_String".equals(column.getTalendType())) {
-							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.STRING";
+							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.STRING" : "com.google.cloud.bigquery.StandardSQLTypeName.STRING";
 						} else if ("id_Float".equals(column.getTalendType()) || "id_Double".equals(column.getTalendType())) {
-							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.FLOAT";
+							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.FLOAT" : "com.google.cloud.bigquery.StandardSQLTypeName.FLOAT64";
 						} else if ("id_Short".equals(column.getTalendType()) || "id_Integer".equals(column.getTalendType()) || "id_Long".equals(column.getTalendType())) {
-							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.INTEGER";
+							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.INTEGER" : "com.google.cloud.bigquery.StandardSQLTypeName.INT64";
 						} else if ("id_Boolean".equals(column.getTalendType())) {
-							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.BOOLEAN";
+							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.BOOLEAN" : "com.google.cloud.bigquery.StandardSQLTypeName.BOOL";
 						} else if ("id_Date".equals(column.getTalendType())) {
-							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.TIMESTAMP";
+							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.TIMESTAMP" : "com.google.cloud.bigquery.StandardSQLTypeName.TIMESTAMP";
 						} else {
 						%>
 							typeSupported = false;

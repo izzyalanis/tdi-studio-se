@@ -96,6 +96,16 @@
     >
       <DEFAULT>""</DEFAULT>
     </PARAMETER>
+    
+    <PARAMETER
+      NAME="USE_LEGACY_SQL"
+      FIELD="CHECK"
+      SHOW="true"
+      NUM_ROW="45"
+    >
+      <DEFAULT>false</DEFAULT>
+    </PARAMETER>
+    
     <PARAMETER
       NAME="QUERY"
       FIELD="MEMO_SQL"
