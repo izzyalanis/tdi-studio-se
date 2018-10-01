@@ -25,15 +25,13 @@ import org.talend.core.model.components.filters.NameComponentFilter;
 import org.talend.core.model.migration.AbstractJobMigrationTask;
 import org.talend.core.model.properties.Item;
 import org.talend.core.model.repository.ERepositoryObjectType;
-import org.talend.designer.core.model.utils.emf.talendfile.ColumnType;
-import org.talend.designer.core.model.utils.emf.talendfile.MetadataType;
 import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
 import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 /**
  * 
  * @author kcoepeau
  * 
- * Migrate tImpalaOutput schema date pattern to use "yyyy-MM-dd"
+ * Migrate tBigQuery DI components to keep Legacy SQL usage for old jobs.
  *
  */
 public class AddUseLegacySqlForBigQueryTask extends AbstractJobMigrationTask {
