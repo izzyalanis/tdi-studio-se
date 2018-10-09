@@ -471,15 +471,15 @@
 						String columnName = column.getLabel();
 						String typeToGenerate = null;
 						if("id_String".equals(column.getTalendType())) {
-							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.STRING" : "com.google.cloud.bigquery.StandardSQLTypeName.STRING";
+							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.STRING";
 						} else if ("id_Float".equals(column.getTalendType()) || "id_Double".equals(column.getTalendType())) {
-							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.FLOAT" : "com.google.cloud.bigquery.StandardSQLTypeName.FLOAT64";
+							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.FLOAT";
 						} else if ("id_Short".equals(column.getTalendType()) || "id_Integer".equals(column.getTalendType()) || "id_Long".equals(column.getTalendType())) {
-							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.INTEGER" : "com.google.cloud.bigquery.StandardSQLTypeName.INT64";
+							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.INTEGER";
 						} else if ("id_Boolean".equals(column.getTalendType())) {
-							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.BOOLEAN" : "com.google.cloud.bigquery.StandardSQLTypeName.BOOL";
+							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.BOOLEAN";
 						} else if ("id_Date".equals(column.getTalendType())) {
-							typeToGenerate = useLegacySql ? "com.google.cloud.bigquery.LegacySQLTypeName.TIMESTAMP" : "com.google.cloud.bigquery.StandardSQLTypeName.TIMESTAMP";
+							typeToGenerate = "com.google.cloud.bigquery.LegacySQLTypeName.TIMESTAMP";
 						} else {
 						%>
 							typeSupported = false;
