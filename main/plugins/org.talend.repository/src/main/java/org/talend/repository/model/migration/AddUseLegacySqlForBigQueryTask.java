@@ -40,6 +40,8 @@ public class AddUseLegacySqlForBigQueryTask extends AbstractJobMigrationTask {
     public List<ERepositoryObjectType> getTypes() {
         List<ERepositoryObjectType> toReturn = new ArrayList<ERepositoryObjectType>();
         toReturn.add(ERepositoryObjectType.PROCESS);
+        toReturn.add(ERepositoryObjectType.PROCESS_SPARK);
+        toReturn.add(ERepositoryObjectType.PROCESS_SPARKSTREAMING);
         return toReturn;
     }
 
