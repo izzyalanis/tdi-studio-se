@@ -50,7 +50,7 @@ public class AddUseLegacySqlForBigQueryTask extends AbstractJobMigrationTask {
             return ExecutionResult.NOTHING_TO_DO;
         }
         
-        List<String> componentNames = Arrays.asList("tBigQueryInput","tBigQueryOutput","tBigQueryBulkExec");
+        List<String> componentNames = Arrays.asList("tBigQueryInput");
         
         IComponentConversion addUseLegacySql = new AddLegacySqlCheckbox();
         try {
