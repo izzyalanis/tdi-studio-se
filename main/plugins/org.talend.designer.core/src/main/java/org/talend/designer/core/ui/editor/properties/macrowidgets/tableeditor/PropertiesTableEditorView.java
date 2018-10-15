@@ -956,7 +956,9 @@ public class PropertiesTableEditorView<B> extends AbstractDataTableEditorView<B>
                         String currentDisplay = null;
                         if (currentValue instanceof Integer) {
                             if (((Integer) currentValue) < curParam.getListItemsDisplayName().length) {
-                                currentDisplay = curParam.getListItemsDisplayName()[(Integer) currentValue];
+                                if ((Integer)currentValue >= 0) {
+                                    currentDisplay = curParam.getListItemsDisplayName()[(Integer) currentValue];
+                                }
                             }
                         } else if (currentValue instanceof String) {
                             int index = ArrayUtils.indexOf(curParam.getListItemsValue(), currentValue);
