@@ -45,6 +45,7 @@ import org.talend.commons.utils.VersionUtils;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.model.process.EParameterFieldType;
 import org.talend.core.model.process.IElementParameter;
+import org.talend.core.model.process.ProcessUtils;
 import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.repository.ERepositoryObjectType;
@@ -60,6 +61,7 @@ import org.talend.designer.core.ui.editor.nodes.Node;
 import org.talend.designer.core.ui.editor.properties.controllers.creator.SelectAllTextControlCreator;
 import org.talend.designer.runprocess.ItemCacheManager;
 import org.talend.designer.runprocess.ProcessorUtilities;
+import org.talend.repository.ProjectManager;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.ui.dialog.RepositoryReviewDialog;
 import org.talend.repository.ui.dialog.UseDynamicJobSelectionDialog;
@@ -493,8 +495,14 @@ public class ProcessController extends AbstractElementPropertySectionController 
             if (dialog.open() == RepositoryReviewDialog.OK) {
                 IRepositoryViewObject repositoryObject = dialog.getResult().getObject();
                 final Item item = repositoryObject.getProperty().getItem();
-                String id = item.getProperty().getId();
-
+                String id = null;
+                if (ProcessorUtilities.isNeedProjectProcessId(item)) {
+                    org.talend.core.model.properties.Project project = ProjectManager.getInstance()
+                            .getProject(item.getProperty());
+                    id = ProcessUtils.getProjectProcessId(project.getTechnicalLabel(), item.getProperty().getId());
+                } else {
+                    id = item.getProperty().getId();
+                } 
                 String paramName = (String) button.getData(PARAMETER_NAME);
                 return new PropertyChangeCommand(elem, paramName, id);
             }
