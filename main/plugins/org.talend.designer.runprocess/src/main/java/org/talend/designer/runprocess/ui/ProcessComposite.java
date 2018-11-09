@@ -653,8 +653,13 @@ public class ProcessComposite extends ScrolledComposite implements IDynamicPrope
                 selectionLine = verticalBar.getSelection();
                 lockConsoleTrace = true;
 
-                if (selectionLine <= consoleLine && selectionLine >= consoleLine - barLength - increment) {
+                if (selectionLine <= consoleLine && selectionLine >= consoleLine - barLength - increment
+                        && !processContext.isTracPause()) {
                     lockConsoleTrace = false;
+
+                    if (processContext != null) {
+                        fillConsole(processContext.getMessages());
+                    }
                 }
             }
         });
