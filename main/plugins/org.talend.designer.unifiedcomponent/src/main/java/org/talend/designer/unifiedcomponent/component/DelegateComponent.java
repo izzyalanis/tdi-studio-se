@@ -121,10 +121,24 @@ public class DelegateComponent extends AbstractBasicComponent {
     @Override
     public String getTranslatedFamilyName() {
         String[] transNames = familyName.split("/"); //$NON-NLS-1$
+        IComponentsFactory factory = ComponentsFactoryProvider.getInstance();
         if (transNames != null && transNames.length > 0) {
-            IComponentsFactory factory = ComponentsFactoryProvider.getInstance();
-            String translated = factory.getFamilyTranslation(this, "FAMILY." + transNames[0].replace(" ", "_"));
-            translatedFamilyName = translated + "/DB Common";
+            StringBuffer stringBuffer = new StringBuffer();
+            for (String toTranslate : transNames) {
+                String translated = factory.getFamilyTranslation(this, "FAMILY." + toTranslate.replace(" ", "_"));
+                if (translated.startsWith("!!")) { //$NON-NLS-1$
+                    if (stringBuffer.length() > 0) {
+                        stringBuffer.append("/");
+                    }
+                    stringBuffer.append(toTranslate);
+                } else {
+                    if (stringBuffer.length() > 0) {
+                        stringBuffer.append("/");
+                    }
+                    stringBuffer.append(translated);
+                }
+            }
+            translatedFamilyName = stringBuffer.toString();
         }
         return translatedFamilyName;
     }
