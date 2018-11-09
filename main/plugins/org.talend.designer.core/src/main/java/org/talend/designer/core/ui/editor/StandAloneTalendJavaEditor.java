@@ -730,6 +730,10 @@ public class StandAloneTalendJavaEditor extends CompilationUnitEditor implements
 
     @Override
     public void doSaveAs() {
+        // for the EditorInput of new created RepositoryNode, need to reload
+        if (this.rEditorInput.getRepositoryNode() == null) {
+            this.rEditorInput.setRepositoryNode(null);
+        }
         ERepositoryObjectType type = this.rEditorInput.getRepositoryNode().getObject().getRepositoryObjectType();
         if (type == ERepositoryObjectType.ROUTINES) {
             SaveAsRoutineAction saveAsAction = new SaveAsRoutineAction(this);
