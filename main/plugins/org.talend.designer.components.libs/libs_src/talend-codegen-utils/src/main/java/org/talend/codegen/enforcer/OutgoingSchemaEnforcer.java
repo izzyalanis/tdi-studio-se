@@ -212,8 +212,11 @@ public class OutgoingSchemaEnforcer implements IndexedRecord {
                 ZonedDateTime zonedDate = ld.atStartOfDay(ZoneId.systemDefault());
                 return Date.from(zonedDate.toInstant());
             } else if (logicalType == LogicalTypes.timeMillis()) {
-                return value;
+                //TODO use java.sql.Time? not sure as logicalType is not only for database maybe
+                //before it is : "return value", value is expected int, need to make sure the old job work well
+                return new Date((Long) value);
             } else if (logicalType == LogicalTypes.timestampMillis()) {
+                //TODO use java.sql.Timestamp for precision to nano second? not sure as logicalType is not only for database maybe
                 return new Date((Long) value);
             }
         }
