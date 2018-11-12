@@ -13,6 +13,8 @@
 package org.talend.codegen.enforcer;
 
 import static org.talend.codegen.DiSchemaConstants.TALEND6_COLUMN_TALEND_TYPE;
+import static org.talend.codegen.DiSchemaConstants.LOGICAL_TIME_TYPE_AS;
+import static org.talend.codegen.DiSchemaConstants.AS_TALEND_DATE;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -212,11 +214,11 @@ public class OutgoingSchemaEnforcer implements IndexedRecord {
                 ZonedDateTime zonedDate = ld.atStartOfDay(ZoneId.systemDefault());
                 return Date.from(zonedDate.toInstant());
             } else if (logicalType == LogicalTypes.timeMillis()) {
-                //TODO use java.sql.Time? not sure as logicalType is not only for database maybe
-                //before it is : "return value", value is expected int, need to make sure the old job work well
-                //after a check, MetadataToolAvroHelper.convertToAvro and convetFromAvro will apply to some studio migration,
-                //it mean when import the old job, the schema Talend type will change from Integer to Date, then here is ok
-                return new Date((Integer) value);
+                if (AS_TALEND_DATE.equals(valueField.getProp(LOGICAL_TIME_TYPE_AS))) {
+                    return new Date((Integer) value);
+                } else {
+                    return value;
+                }
             } else if (logicalType == LogicalTypes.timestampMillis()) {
                 //TODO use java.sql.Timestamp for precision to nano second? not sure as logicalType is not only for database maybe
                 return new Date((Long) value);

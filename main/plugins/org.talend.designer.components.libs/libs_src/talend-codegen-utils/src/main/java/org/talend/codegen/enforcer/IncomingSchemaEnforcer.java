@@ -462,8 +462,6 @@ public class IncomingSchemaEnforcer {
         }
 
         //as we need to consider the old job which input maybe int type, but now for logicalTimeMillis, we expect Date type, so we comment it here
-        //after a check, MetadataToolAvroHelper.convertToAvro and convetFromAvro will apply to some studio migration,
-        //it mean when import the old job, the schema Talend type will change from Integer to Date
         /*
         if(LogicalTypeUtils.isLogicalTimeMillis(fieldSchema)) {
             //the writer in snowflakewriter can process int and date both, snowflakewriter is the unique writer which studio use for logicalTime type.

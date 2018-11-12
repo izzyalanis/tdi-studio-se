@@ -120,7 +120,7 @@ public class OutgoingSchemaEnforcerTest {
         assertThat(enforcer.get(3), equalTo((Object) true));
         assertThat(enforcer.get(4), equalTo((Object) new Date(1467170137872L)));
         assertThat(enforcer.get(5), equalTo((Object) DATE_COMPARE));
-        assertThat(enforcer.get(6), equalTo((Object) new Date(1000)));
+        assertThat(enforcer.get(6), equalTo((Object) 1000));
         assertThat(enforcer.get(7), equalTo((Object) new Date(1467170137872L)));
     }
 
