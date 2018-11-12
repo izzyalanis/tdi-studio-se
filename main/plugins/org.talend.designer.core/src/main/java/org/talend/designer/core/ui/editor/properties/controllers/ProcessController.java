@@ -495,14 +495,9 @@ public class ProcessController extends AbstractElementPropertySectionController 
             if (dialog.open() == RepositoryReviewDialog.OK) {
                 IRepositoryViewObject repositoryObject = dialog.getResult().getObject();
                 final Item item = repositoryObject.getProperty().getItem();
-                String id = null;
-                if (ProcessorUtilities.isNeedProjectProcessId(item)) {
-                    org.talend.core.model.properties.Project project = ProjectManager.getInstance()
-                            .getProject(item.getProperty());
-                    id = ProcessUtils.getProjectProcessId(project.getTechnicalLabel(), item.getProperty().getId());
-                } else {
-                    id = item.getProperty().getId();
-                } 
+                org.talend.core.model.properties.Project project = ProjectManager.getInstance()
+                        .getProject(item.getProperty());
+                String id = ProcessUtils.getProjectProcessId(project.getTechnicalLabel(), item.getProperty().getId());
                 String paramName = (String) button.getData(PARAMETER_NAME);
                 return new PropertyChangeCommand(elem, paramName, id);
             }

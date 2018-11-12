@@ -60,11 +60,12 @@ public class JobLaunchConfigurationDelegate extends org.eclipse.debug.core.model
         String jobId = configuration.getAttribute(TalendDebugUIConstants.JOB_ID, (String) null);
         String jobName = configuration.getAttribute(TalendDebugUIConstants.JOB_NAME, (String) null);
         String jobVersion = configuration.getAttribute(TalendDebugUIConstants.JOB_VERSION, (String) null);
+        String projectLabel = configuration.getAttribute(TalendDebugUIConstants.CURRENT_PROJECT_NAME, (String) null);
         // find process from open editor.
-        IProcess2 process = DesignerUtilities.findProcessFromEditors(jobId, jobVersion);
+        IProcess2 process = DesignerUtilities.findProcessFromEditors(projectLabel, jobId, jobVersion);
         // find process from repository
         if (process == null) {
-            process = findProcessFromRepository(jobId, jobVersion);
+            process = findProcessFromRepository(projectLabel, jobId, jobVersion);
         }
 
         if (process == null) {
@@ -93,10 +94,10 @@ public class JobLaunchConfigurationDelegate extends org.eclipse.debug.core.model
      * @param jobName
      * @return
      */
-    private IProcess2 findProcessFromRepository(String jobId, String version) {
+    private IProcess2 findProcessFromRepository(String projectLabel, String jobId, String version) {
         try {
             ItemCacheManager.clearCache();
-            ProcessItem processItem = ItemCacheManager.getProcessItem(jobId, version);
+            ProcessItem processItem = ItemCacheManager.getProcessItem(projectLabel, jobId, version);
             if (processItem != null) {
                 if (GlobalServiceRegister.getDefault().isServiceRegistered(IDesignerCoreService.class)) {
                     IDesignerCoreService service = (IDesignerCoreService) GlobalServiceRegister.getDefault().getService(

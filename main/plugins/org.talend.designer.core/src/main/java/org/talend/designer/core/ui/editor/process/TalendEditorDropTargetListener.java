@@ -115,6 +115,7 @@ import org.talend.core.model.process.INode;
 import org.talend.core.model.process.INodeConnector;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.process.IProcess2;
+import org.talend.core.model.process.ProcessUtils;
 import org.talend.core.model.process.node.MapperExternalNode;
 import org.talend.core.model.properties.ConnectionItem;
 import org.talend.core.model.properties.ContextItem;
@@ -169,6 +170,7 @@ import org.talend.designer.core.model.components.EParameterName;
 import org.talend.designer.core.model.components.EmfComponent;
 import org.talend.designer.core.model.components.ExternalUtilities;
 import org.talend.designer.core.model.process.ConnectionManager;
+import org.talend.designer.core.model.utils.emf.talendfile.ParametersType;
 import org.talend.designer.core.model.utils.emf.talendfile.impl.ContextParameterTypeImpl;
 import org.talend.designer.core.model.utils.emf.talendfile.impl.ContextTypeImpl;
 import org.talend.designer.core.ui.AbstractMultiPageTalendEditor;
@@ -193,9 +195,11 @@ import org.talend.designer.core.ui.editor.nodes.Node;
 import org.talend.designer.core.ui.editor.nodes.NodePart;
 import org.talend.designer.core.ui.editor.subjobcontainer.SubjobContainerPart;
 import org.talend.designer.core.ui.preferences.TalendDesignerPrefConstants;
+import org.talend.designer.core.ui.projectsetting.ElementParameter2ParameterType;
 import org.talend.designer.core.utils.DesignerUtilities;
 import org.talend.designer.core.utils.UnifiedComponentUtil;
 import org.talend.designer.core.utils.ValidationRulesUtil;
+import org.talend.designer.runprocess.ProcessorUtilities;
 import org.talend.metadata.managment.ui.utils.ConnectionContextHelper;
 import org.talend.repository.ProjectManager;
 import org.talend.repository.RepositoryPlugin;
@@ -1500,7 +1504,13 @@ public class TalendEditorDropTargetListener extends TemplateTransferDropTargetLi
         } else if (selectedNode.getObject().getProperty().getItem() instanceof ProcessItem) {
             ProcessItem processItem = (ProcessItem) selectedNode.getObject().getProperty().getItem();
             // command used to set job
-            String value = processItem.getProperty().getId();
+            String value = null;
+            if (ProcessorUtilities.isNeedProjectProcessId(node.getComponent().getName())) {
+                org.talend.core.model.properties.Project project = ProjectManager.getInstance().getProject(processItem.getProperty());
+                value = ProcessUtils.getProjectProcessId(project.getTechnicalLabel(), processItem.getProperty().getId());     
+            } else {
+                value = processItem.getProperty().getId();
+            }         
             PropertyChangeCommand command4 = new PropertyChangeCommand(node, EParameterName.PROCESS_TYPE_PROCESS.getName(), value);
             cc.add(command4);
             PropertyChangeCommand command5 = new PropertyChangeCommand(node, EParameterName.PROCESS_TYPE_CONTEXT.getName(),
@@ -1871,6 +1881,10 @@ public class TalendEditorDropTargetListener extends TemplateTransferDropTargetLi
     private Command getChangeChildProcessCommand(Node node, ProcessItem processItem) {
         // command used to set job
         String value = processItem.getProperty().getId();
+        if (ProcessorUtilities.isNeedProjectProcessId(node.getComponent().getName())) {
+            org.talend.core.model.properties.Project project = ProjectManager.getInstance().getProject(processItem.getProperty());
+            value = ProcessUtils.getProjectProcessId(project.getTechnicalLabel(), processItem.getProperty().getId());     
+        } 
         IElementParameter processParam = node.getElementParameterFromField(EParameterFieldType.PROCESS_TYPE);
         if (processParam != null) {
             PropertyChangeCommand command2 = new PropertyChangeCommand(node, EParameterName.PROCESS_TYPE_PROCESS.getName(), value);
