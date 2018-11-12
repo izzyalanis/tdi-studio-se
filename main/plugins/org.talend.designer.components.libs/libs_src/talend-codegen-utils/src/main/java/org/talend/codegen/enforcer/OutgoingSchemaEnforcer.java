@@ -214,7 +214,9 @@ public class OutgoingSchemaEnforcer implements IndexedRecord {
             } else if (logicalType == LogicalTypes.timeMillis()) {
                 //TODO use java.sql.Time? not sure as logicalType is not only for database maybe
                 //before it is : "return value", value is expected int, need to make sure the old job work well
-                return new Date((Long) value);
+                //after a check, MetadataToolAvroHelper.convertToAvro and convetFromAvro will apply to some studio migration,
+                //it mean when import the old job, the schema Talend type will change from Integer to Date, then here is ok
+                return new Date((Integer) value);
             } else if (logicalType == LogicalTypes.timestampMillis()) {
                 //TODO use java.sql.Timestamp for precision to nano second? not sure as logicalType is not only for database maybe
                 return new Date((Long) value);

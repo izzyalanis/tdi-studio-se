@@ -409,6 +409,8 @@ public class IncomingSchemaEnforcer {
 
         // TODO(igonchar): This is wrong. However I left it as is. We have to fix it after release
         // Seems, talendType is added by Studio to schema
+        //seems only a safe check for Date with Long and String type input,in fact, will not enter them, so consider remove the code below,
+        //or it works for some old job?
         if ("java.util.Date".equals(javaClass) || "id_Date".equals(talendType)) {
             if (diValue instanceof Date) {
                 avroValue = diValue;
@@ -458,6 +460,19 @@ public class IncomingSchemaEnforcer {
             currentRecord.put(index, avroTimestamp);
             return;
         }
+
+        //as we need to consider the old job which input maybe int type, but now for logicalTimeMillis, we expect Date type, so we comment it here
+        //after a check, MetadataToolAvroHelper.convertToAvro and convetFromAvro will apply to some studio migration,
+        //it mean when import the old job, the schema Talend type will change from Integer to Date
+        /*
+        if(LogicalTypeUtils.isLogicalTimeMillis(fieldSchema)) {
+            //the writer in snowflakewriter can process int and date both, snowflakewriter is the unique writer which studio use for logicalTime type.
+            Date diDate = (Date) diValue;
+            long avroTimestamp = diDate.getTime();
+            currentRecord.put(index, avroTimestamp);
+            return;
+        }
+        */
 
         // TODO(igonchar): I'm not sure it is correct. For me avro value should be string. Conversion to BigDecimal may be
         // delegated to component. Component should decide whether convert to BigDecimal
