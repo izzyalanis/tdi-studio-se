@@ -461,16 +461,11 @@ public class IncomingSchemaEnforcer {
             return;
         }
 
-        //as we need to consider the old job which input maybe int type, but now for logicalTimeMillis, we expect Date type, so we comment it here
-        /*
-        if(LogicalTypeUtils.isLogicalTimeMillis(fieldSchema)) {
+        if (LogicalTypeUtils.isLogicalTimeMillis(fieldSchema)) {
             //the writer in snowflakewriter can process int and date both, snowflakewriter is the unique writer which studio use for logicalTime type.
-            Date diDate = (Date) diValue;
-            long avroTimestamp = diDate.getTime();
-            currentRecord.put(index, avroTimestamp);
+            currentRecord.put(index, diValue);
             return;
         }
-        */
 
         // TODO(igonchar): I'm not sure it is correct. For me avro value should be string. Conversion to BigDecimal may be
         // delegated to component. Component should decide whether convert to BigDecimal
